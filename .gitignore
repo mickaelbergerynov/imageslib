@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+## Uploaded images ##
+files/images/
+
+## database ##
+demodb.mv.db
+demodb.trace.db
