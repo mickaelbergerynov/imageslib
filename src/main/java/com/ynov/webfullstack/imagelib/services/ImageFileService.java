@@ -6,9 +6,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ImageFileService {
     private static final String imagesDirectory = "files/images/";
-    
+
     public static final void saveImageFile(String imageFileName, byte[] fileBytes) throws IOException {
         Path imagePath = Paths.get(imagesDirectory, imageFileName);
         Files.createDirectories(imagePath.getParent());
