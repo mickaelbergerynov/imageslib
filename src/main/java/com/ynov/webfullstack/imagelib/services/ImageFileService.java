@@ -21,6 +21,11 @@ public class ImageFileService {
         output.close();
     }
 
+    public static byte[] getImageFile(String imageFileName) throws IOException {
+        Path imagePath = Paths.get(imagesDirectory, imageFileName);
+        return Files.readAllBytes(imagePath);
+    }
+
     public static final boolean removeImageFile(String imageFileName) throws IOException {
         Path imagePath = Paths.get(imagesDirectory, imageFileName);
         return Files.deleteIfExists(imagePath);

@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +41,16 @@ public class ImagesController {
                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find image with id " + id));
 
         return img;
+    }
+
+    @GetMapping(value = "/images/file/{fileName}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
+    public @ResponseBody Resource getFileFromFileName(@PathVariable String fileName) {
+        try {
+            ByteArrayResource resource = new ByteArrayResource(ImageFileService.getImageFile(fileName));
+            return resource;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Cannot open image file");
+        }
     }
 
     @PostMapping(path = "/images", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
