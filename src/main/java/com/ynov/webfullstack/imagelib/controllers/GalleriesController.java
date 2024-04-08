@@ -13,14 +13,17 @@ import com.ynov.webfullstack.imagelib.repositories.GalleryRepository;
 import com.ynov.webfullstack.imagelib.repositories.ImageRepository;
 import com.ynov.webfullstack.imagelib.viewmodels.GalleryViewModel;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
+@CrossOrigin("*")
 public class GalleriesController {
     @Autowired
     private GalleryRepository galleryRepository;
@@ -58,6 +61,17 @@ public class GalleriesController {
 
         gallery.addImage(image);
         return galleryRepository.save(gallery);
+    }
+
+    @GetMapping("/galleries/{id}")
+    public Gallery getOne(@PathVariable Long id) {
+        return galleryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "Cannot find gallery with the specified id"));
+    }
+
+    @GetMapping("/galleries/{id}/images")
+    public List<Image> getImagesForGallery(@PathVariable Long id) {
+        return imageRepository.findByGalleriesId(id);
     }
 
     @DeleteMapping("/galleries/{id}")

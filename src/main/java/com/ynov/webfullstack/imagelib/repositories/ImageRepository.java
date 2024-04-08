@@ -10,4 +10,6 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
     List<Image> findByFileName(String fileName);
 
     List<Image> findByGalleriesName(String galleryName);
+
+    List<Image> findByGalleriesId(Long galleryId);
 }
